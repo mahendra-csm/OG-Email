@@ -1,0 +1,53 @@
+📌 Prerequisites for the Email Crawler Project
+Before you start running the Scrapy email crawler, ensure you have the following installed and configured properly.
+
+✅ 1. Install Python (3.8 or later)
+Scrapy requires Python 3.8 or newer. To check your Python version, run:
+python3 --version
+
+If not installed, download and install Python from python.org.
+
+✅ 2. Install Scrapy
+Scrapy is the main framework for web crawling. Install it using pip:
+pip install scrapy
+
+Verify installation:
+scrapy version
+
+✅ 3. Install Required Python Libraries
+Ensure the necessary libraries are installed:
+pip install requests
+
+✅ 4. Set Up Your Scrapy Project
+Create a new Scrapy project:
+scrapy startproject emailcrawler
+
+Navigate into the project:
+cd emailcrawler
+
+Generate the spider:
+scrapy genspider email_spider example.com
+
+✅ 5. Create Input & Output Files
+websites.txt → Contains websites to crawl.
+extracted_emails.txt → Stores extracted emails.
+
+✅ 6. Ensure You Have a Working Internet Connection
+Since the crawler fetches web pages, an active internet connection is required.
+
+✅ 7. Use a Virtual Environment (Optional, but Recommended)
+For better dependency management, use a virtual environment:
+python3 -m venv venv
+source venv/bin/activate   # On macOS/Linux
+venv\Scripts\activate      # On Windows
+
+Then install dependencies inside the virtual environment:
+pip install scrapy requests
+
+✅ 8. Run the Spider
+Once everything is set up, start the crawler:
+scrapy crawl email_spider
+
+✅ 9. Check Extracted Emails
+After execution, check the extracted_emails.txt file:
+cat extracted_emails.txt
