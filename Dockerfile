@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install scrapy
+RUN pip install --no-cache-dir scrapy rapidfuzz dnspython
 
 WORKDIR /app/emailcrawler
 
