@@ -26,7 +26,7 @@ pipeline {
             }
         }
 
-        stage('Copy Extracted Files') {
+        stage('Copy Output Files') {
             steps {
                 sh '''
                 docker cp emailscrapy-container:/app/emailcrawler/extracted_emails.txt .
@@ -35,22 +35,22 @@ pipeline {
             }
         }
 
-        stage('Show Extracted Emails') {
+        stage('Display Extracted Emails') {
             steps {
                 sh '''
-                echo "================ EXTRACTED EMAILS ================"
+                echo "========== EXTRACTED EMAILS =========="
                 cat extracted_emails.txt || true
-                echo "================================================="
+                echo "======================================"
                 '''
             }
         }
 
-        stage('Show Report') {
+        stage('Display Report') {
             steps {
                 sh '''
-                echo "================ REPORT ================"
+                echo "=============== REPORT ==============="
                 cat report.txt || true
-                echo "========================================"
+                echo "======================================"
                 '''
             }
         }
