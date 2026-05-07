@@ -376,7 +376,7 @@ class EmailSpider(scrapy.Spider):
             
             # print(f"[OK] Found {len(new_emails)} valid emails from {response.url}")
             for email in sorted(new_emails):
-                print(f"[EMAIL FOUND] {email}")
+                print(f"[EMAIL FOUND] {email}", flush=True)
 
         # Follow subdomain links (skip non-text files)
         for href in response.css("a::attr(href)").getall():
