@@ -1,16 +1,12 @@
 pipeline {
+
     agent any
+
     options {
         disableConcurrentBuilds()
     }
 
     stages {
-
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Karim-786/EmailScrapy-OG.git'
-            }
-        }
 
         stage('Run Scrapy Spider') {
 
@@ -19,8 +15,7 @@ pipeline {
                 dir('emailcrawler') {
 
                     sh '''
-                    docker stop emailscrapy-container || true
-                     docker rm -f emailscrapy-container || true
+                    docker rm -f emailscrapy-container || true
 
                     docker run --name emailscrapy-container emailscrapy-app
 
