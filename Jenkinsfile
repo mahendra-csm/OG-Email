@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Pull Code') {
-            steps {
-                echo 'Pulling latest code from GitHub'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t emailscrapy-app .'
@@ -30,6 +24,41 @@ pipeline {
                 docker run --name emailscrapy-container emailscrapy-app
                 '''
             }
+        }
+
+        stage('Copy Extracted Files') {
+            steps {
+                sh '''
+                docker cp emailscrapy-container:/app/emailcrawler/extracted_emails.txt .
+                docker cp emailscrapy-container:/app/emailcrawler/report.txt .
+                '''
+            }
+        }
+
+        stage('Show Extracted Emails') {
+            steps {
+                sh '''
+                echo "================ EXTRACTED EMAILS ================"
+                cat extracted_emails.txt || true
+                echo "================================================="
+                '''
+            }
+        }
+
+        stage('Show Report') {
+            steps {
+                sh '''
+                echo "================ REPORT ================"
+                cat report.txt || true
+                echo "========================================"
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '*.txt', allowEmptyArchive: true
         }
     }
 }
