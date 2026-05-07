@@ -3,7 +3,7 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
+        stage('Pull Code') {
             steps {
                 echo 'Pulling latest code from GitHub'
             }
@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Stop Old Container') {
+        stage('Remove Old Container') {
             steps {
                 sh '''
                 docker stop emailscrapy-container || true
@@ -24,13 +24,10 @@ pipeline {
             }
         }
 
-        stage('Run New Container') {
+        stage('Run Scrapy Spider') {
             steps {
                 sh '''
-                docker run -d \
-                -p 80:80 \
-                --name emailscrapy-container \
-                emailscrapy-app
+                docker run --name emailscrapy-container emailscrapy-app
                 '''
             }
         }
