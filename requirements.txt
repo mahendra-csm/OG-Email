@@ -2,3 +2,5 @@ scrapy
 requests
 beautifulsoup4
 pandas
+rapidfuzz
+dnspython
