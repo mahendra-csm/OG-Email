@@ -156,19 +156,21 @@ def correct_email(email):
     return f"{local}@{domain}"
 
 
+# def domain_has_mx(domain):
+#     """Check if a domain has valid MX records (with caching)."""
+#     if not DNS_AVAILABLE:
+#         return True  # Can't verify, so don't drop it
+#     domain = domain.lower()
+#     if domain in _mx_cache:
+#         return _mx_cache[domain]
+#     try:
+#         dns.resolver.resolve(domain, 'MX', lifetime=5)
+#         _mx_cache[domain] = True
+#     except Exception:
+#         _mx_cache[domain] = False
+#     return _mx_cache[domain]
 def domain_has_mx(domain):
-    """Check if a domain has valid MX records (with caching)."""
-    if not DNS_AVAILABLE:
-        return True  # Can't verify, so don't drop it
-    domain = domain.lower()
-    if domain in _mx_cache:
-        return _mx_cache[domain]
-    try:
-        dns.resolver.resolve(domain, 'MX', lifetime=5)
-        _mx_cache[domain] = True
-    except Exception:
-        _mx_cache[domain] = False
-    return _mx_cache[domain]
+    return True
 
 
 def is_valid_email(email):
@@ -241,6 +243,12 @@ def is_valid_email(email):
 
 class EmailSpider(scrapy.Spider):
     name = "email_spider"
+
+    custom_settings = {
+        'CLOSESPIDER_PAGECOUNT': 50,
+        'DOWNLOAD_TIMEOUT': 10,
+        'DEPTH_LIMIT': 2,
+    }
 
     def __init__(self, *args, **kwargs):
         super(EmailSpider, self).__init__(*args, **kwargs)
