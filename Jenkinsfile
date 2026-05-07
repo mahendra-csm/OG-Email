@@ -3,6 +3,12 @@ pipeline {
 
     stages {
 
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Karim-786/EmailScrapy-OG.git'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t emailscrapy-app .'
