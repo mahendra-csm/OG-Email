@@ -3,19 +3,12 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Run Scrapy Spider') {
             steps {
-                git 'https://github.com/Karim-786/EmailScrapy-OG.git'
-            }
-        }
 
-        stage('Move To Scrapy Folder') {
-            steps {
                 dir('emailcrawler') {
 
                     sh '''
-                    docker build -t emailscrapy-app .
-
                     docker stop emailscrapy-container || true
                     docker rm emailscrapy-container || true
 
@@ -29,12 +22,6 @@ pipeline {
                     '''
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: 'emailcrawler/extracted_emails.txt', allowEmptyArchive: true
         }
     }
 }
