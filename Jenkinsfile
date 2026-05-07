@@ -3,7 +3,14 @@ pipeline {
 
     stages {
 
+        stage('Clone Repository') {
+            steps {
+                git 'https://github.com/Karim-786/EmailScrapy-OG.git'
+            }
+        }
+
         stage('Run Scrapy Spider') {
+
             steps {
 
                 dir('emailcrawler') {
