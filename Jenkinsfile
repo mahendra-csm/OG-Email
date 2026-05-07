@@ -3,15 +3,11 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
-            steps {
-                git 'https://github.com/Karim-786/EmailScrapy-OG.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t emailscrapy-app .'
+                dir('emailcrawler') {
+                    sh 'docker build -t emailscrapy-app .'
+                }
             }
         }
 
@@ -35,8 +31,8 @@ pipeline {
         stage('Copy Output Files') {
             steps {
                 sh '''
-                docker cp emailscrapy-container:/app/emailcrawler/extracted_emails.txt .
-                docker cp emailscrapy-container:/app/emailcrawler/report.txt .
+                docker cp emailscrapy-container:/app/extracted_emails.txt .
+                docker cp emailscrapy-container:/app/report.txt .
                 '''
             }
         }
