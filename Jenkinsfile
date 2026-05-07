@@ -28,39 +28,12 @@ pipeline {
             }
         }
 
-        stage('Copy Output Files') {
+        stage('Show Logs') {
             steps {
                 sh '''
-                docker cp emailscrapy-container:/app/extracted_emails.txt .
-                docker cp emailscrapy-container:/app/report.txt .
+                docker logs emailscrapy-container || true
                 '''
             }
-        }
-
-        stage('Display Extracted Emails') {
-            steps {
-                sh '''
-                echo "========== EXTRACTED EMAILS =========="
-                cat extracted_emails.txt || true
-                echo "======================================"
-                '''
-            }
-        }
-
-        stage('Display Report') {
-            steps {
-                sh '''
-                echo "=============== REPORT ==============="
-                cat report.txt || true
-                echo "======================================"
-                '''
-            }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: '*.txt', allowEmptyArchive: true
         }
     }
 }
