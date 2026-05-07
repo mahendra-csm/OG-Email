@@ -2,7 +2,7 @@ import scrapy
 import re
 import unicodedata
 from urllib.parse import urlparse
-import winsound  # Windows built-in for notification sounds
+# import winsound  # Windows built-in for notification sounds
 
 # ─────────────────────────────────────────────
 # Optional imports — install with:
@@ -374,7 +374,9 @@ class EmailSpider(scrapy.Spider):
             if base_url:
                 self.emails_per_url[base_url].update(new_emails)
             
-            print(f"[OK] Found {len(new_emails)} valid emails from {response.url}")
+            # print(f"[OK] Found {len(new_emails)} valid emails from {response.url}")
+            for email in sorted(new_emails):
+                print(f"[EMAIL FOUND] {email}")
 
         # Follow subdomain links (skip non-text files)
         for href in response.css("a::attr(href)").getall():
@@ -411,20 +413,21 @@ class EmailSpider(scrapy.Spider):
         self.play_notification_sound()
 
     def play_notification_sound(self):
-        """Play a continuous notification sound for 5 seconds when crawling finishes"""
-        try:
-            # Play continuous alternating beeps for 5 seconds total
-            # Each cycle: 200ms + 200ms = 400ms, so 12-13 cycles = ~5 seconds
-            for _ in range(12):
-                winsound.Beep(800, 200)   # Low tone
-                winsound.Beep(1200, 200)  # High tone
+        # """Play a continuous notification sound for 5 seconds when crawling finishes"""
+        # try:
+        #     # Play continuous alternating beeps for 5 seconds total
+        #     # Each cycle: 200ms + 200ms = 400ms, so 12-13 cycles = ~5 seconds
+        #     for _ in range(12):
+        #         winsound.Beep(800, 200)   # Low tone
+        #         winsound.Beep(1200, 200)  # High tone
             
-            # Final long beep to signal completion
-            winsound.Beep(1000, 500)
+        #     # Final long beep to signal completion
+        #     winsound.Beep(1000, 500)
             
-            print("mail extraction complete! 🔔\n[NOTIFICATION] E")
-        except Exception as e:
-            print(f"\n[INFO] Could not play notification sound: {e}")
+        #     print("mail extraction complete! 🔔\n[NOTIFICATION] E")
+        # except Exception as e:
+        
+        print("\n[INFO] Email extraction completed successfully.")
 
     def generate_report(self):
         """ Generate report.txt with email count per URL """
