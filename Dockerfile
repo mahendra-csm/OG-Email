@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pip install scrapy
+
+WORKDIR /app/emailcrawler
 
 CMD ["scrapy", "crawl", "email_spider"]
