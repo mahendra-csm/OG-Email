@@ -17,7 +17,7 @@ pipeline {
 
                     sh '''
                     docker stop emailscrapy-container || true
-                    docker rm emailscrapy-container || true
+                     docker rm -f emailscrapy-container || true
 
                     docker run --name emailscrapy-container emailscrapy-app
 
