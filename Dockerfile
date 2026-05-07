@@ -1,10 +1,10 @@
-FROM python:3.10
+FROM python:3.11-slim
 
 WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir scrapy rapidfuzz dnspython
+RUN pip install scrapy
 
 WORKDIR /app/emailcrawler
 
