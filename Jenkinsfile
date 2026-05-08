@@ -30,7 +30,7 @@ pipeline {
                     docker run --name emailscrapy-container emailscrapy-app
 
                     docker cp emailscrapy-container:/app/extracted_emails.txt .
-
+                    docker cp emailscrapy-container:/app/report.txt .
                     echo "========== EXTRACTED EMAILS =========="
                     cat extracted_emails.txt || true
                     echo "======================================"
