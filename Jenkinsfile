@@ -1,7 +1,21 @@
 pipeline {
+
     agent any
 
     stages {
+
+        stage('Build Docker Image') {
+
+            steps {
+
+                dir('emailcrawler') {
+
+                    sh '''
+                    docker build -t emailscrapy-app .
+                    '''
+                }
+            }
+        }
 
         stage('Run Scrapy Spider') {
 
