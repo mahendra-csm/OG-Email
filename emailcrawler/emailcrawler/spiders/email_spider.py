@@ -248,6 +248,7 @@ class EmailSpider(scrapy.Spider):
         'CLOSESPIDER_PAGECOUNT': 50,
         'DOWNLOAD_TIMEOUT': 10,
         'DEPTH_LIMIT': 2,
+        'LOG_LEVEL': 'ERROR'
     }
 
     def __init__(self, *args, **kwargs):
