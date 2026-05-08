@@ -34,6 +34,10 @@ pipeline {
                     echo "========== EXTRACTED EMAILS =========="
                     cat extracted_emails.txt || true
                     echo "======================================"
+
+                    echo "============= REPORT ================="
+                    cat report.txt || true
+                    echo "======================================"
                     '''
                 }
             }
