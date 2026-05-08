@@ -38,5 +38,17 @@ pipeline {
                 }
             }
         }
+
+        stage('Cleanup Memory') {
+
+            steps {
+
+                sh '''
+                docker container prune -f
+                docker image prune -af
+                docker builder prune -af
+                '''
+            }
+        }
     }
 }
