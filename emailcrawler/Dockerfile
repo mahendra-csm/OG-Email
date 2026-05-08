@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir scrapy rapidfuzz dnspython
 
 CMD ["scrapy", "crawl", "email_spider"]
