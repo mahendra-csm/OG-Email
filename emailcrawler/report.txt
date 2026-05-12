@@ -1,46 +1,25 @@
 ============================================================
            EMAIL EXTRACTION REPORT
 ============================================================
-Generated: 2026-05-12 17:38:22
+Generated: 2026-05-12 17:44:42
 ============================================================
 
 URL-WISE EMAIL COUNT:
 ------------------------------------------------------------
 
-* URL: https://www.msu.ru
+* URL: https://www.python.org
+   Emails Extracted: 7
+
+* URL: https://www.github.com
    Emails Extracted: 0
 
-* URL: https://spbu.ru
-   Emails Extracted: 0
-
-* URL: https://www.nsu.ru
-   Emails Extracted: 0
-
-* URL: https://www.tsu.ru
-   Emails Extracted: 4
-
-* URL: https://mipt.ru
-   Emails Extracted: 0
-
-* URL: https://bmstu.ru
-   Emails Extracted: 0
-
-* URL: https://mephi.ru
-   Emails Extracted: 0
-
-* URL: https://www.hse.ru
-   Emails Extracted: 29
-
-* URL: https://kpfu.ru
-   Emails Extracted: 9
-
-* URL: https://urfu.ru
-   Emails Extracted: 0
+* URL: https://www.wikipedia.org
+   Emails Extracted: 2
 
 ============================================================
 SUMMARY:
 ------------------------------------------------------------
-Total URLs Crawled    : 10
-Total Pages Visited   : 51
-Total Unique Emails   : 42
+Total URLs Crawled    : 3
+Total Pages Visited   : 53
+Total Unique Emails   : 9
 ============================================================
