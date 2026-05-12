@@ -1,10 +1,3 @@
-https://www.msu.ru
-https://spbu.ru
-https://www.nsu.ru
-https://www.tsu.ru
-https://mipt.ru
-https://bmstu.ru
-https://mephi.ru
-https://www.hse.ru
-https://kpfu.ru
-https://urfu.ru
+https://www.python.org
+https://www.github.com
+https://www.wikipedia.org
