@@ -1,0 +1,47 @@
+name: Daily Email Extraction
+
+on:
+  push:
+    paths:
+      - 'emailcrawler/websites.txt'
+      - 'run_email_extractor.py'
+      - 'emailcrawler/emailcrawler/spiders/email_spider.py'
+      - '.github/workflows/daily-email-extraction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  extract-emails:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run crawler
+        run: |
+          python run_email_extractor.py emailcrawler/websites.txt
+
+      - name: Commit updated outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add emailcrawler/extracted_emails.txt emailcrawler/report.txt
+          if git diff --cached --quiet; then
+            echo "No output changes to commit."
+          else
+            git commit -m "Refresh extracted emails [skip ci]"
+            git push
+          fi
