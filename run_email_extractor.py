@@ -1,4 +1,4 @@
-"""Run the email crawler against a user-supplied URL list.
+r"""Run the email crawler against a user-supplied URL list.
 
 Usage:
     python run_email_extractor.py path\to\urls.txt
