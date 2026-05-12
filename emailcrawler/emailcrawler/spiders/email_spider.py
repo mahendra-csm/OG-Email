@@ -1,6 +1,7 @@
 import scrapy
 import re
 import unicodedata
+from pathlib import Path
 from urllib.parse import urlparse
 # import winsound  # Windows built-in for notification sounds
 
@@ -253,6 +254,10 @@ class EmailSpider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
         super(EmailSpider, self).__init__(*args, **kwargs)
+        self.project_root = Path(__file__).resolve().parents[2]
+        self.input_file = kwargs.get("input_file", "websites.txt")
+        self.output_file = kwargs.get("output_file", "extracted_emails.txt")
+        self.report_file = kwargs.get("report_file", "report.txt")
         self.visited_urls = set()
         self.allowed_domains = set()
         self.all_valid_emails = set()  # Store all valid unique emails
@@ -260,14 +265,21 @@ class EmailSpider(scrapy.Spider):
         self.domain_to_base_url = {}  # Map domain to original base URL
         self.start_urls = self.load_start_urls()
         # Clear the output files at start
-        with open("extracted_emails.txt", "w", encoding="utf-8") as f:
+        with open(self._resolve_path(self.output_file), "w", encoding="utf-8") as f:
             f.write("")
-        with open("report.txt", "w", encoding="utf-8") as f:
+        with open(self._resolve_path(self.report_file), "w", encoding="utf-8") as f:
             f.write("")
 
+    def _resolve_path(self, file_name):
+        path = Path(file_name)
+        if path.is_absolute():
+            return path
+        return self.project_root / path
+
     def load_start_urls(self):
-        """ Load websites from 'websites.txt' - supports multiple URLs """
-        with open("websites.txt", "r", encoding="utf-8") as f:
+        """ Load websites from an input text file - supports multiple URLs """
+        input_path = self._resolve_path(self.input_file)
+        with open(input_path, "r", encoding="utf-8") as f:
             urls = [url.strip() for url in f.readlines() if url.strip() and not url.strip().startswith('#')]
         
         # Initialize tracking for each URL
@@ -277,7 +289,7 @@ class EmailSpider(scrapy.Spider):
             self.domain_to_base_url[domain] = url
             self.emails_per_url[url] = set()  # Track unique emails per base URL
         
-        print(f"[INFO] Loaded {len(urls)} URL(s) to crawl: {urls}")
+        print(f"[INFO] Loaded {len(urls)} URL(s) to crawl from {input_path}: {urls}")
         return urls
 
     # File extensions to skip (non-text content)
@@ -401,7 +413,7 @@ class EmailSpider(scrapy.Spider):
 
     def save_emails(self, emails):
         """ Save extracted emails to 'extracted_emails.txt' - only emails, no URLs """
-        with open("extracted_emails.txt", "a", encoding="utf-8") as f:
+        with open(self._resolve_path(self.output_file), "a", encoding="utf-8") as f:
             for email in sorted(emails):
                 f.write(email + "\n")
 
@@ -414,8 +426,8 @@ class EmailSpider(scrapy.Spider):
         print(f"Crawling complete!")
         print(f"Total unique valid emails extracted: {len(self.all_valid_emails)}")
         print(f"Total pages visited: {len(self.visited_urls)}")
-        print(f"Emails saved to: extracted_emails.txt")
-        print(f"Report saved to: report.txt")
+        print(f"Emails saved to: {self._resolve_path(self.output_file)}")
+        print(f"Report saved to: {self._resolve_path(self.report_file)}")
         print(f"{'='*60}")
         
         # Play notification sound to alert user that extraction is complete
@@ -442,7 +454,7 @@ class EmailSpider(scrapy.Spider):
         """ Generate report.txt with email count per URL """
         from datetime import datetime
         
-        with open("report.txt", "w", encoding="utf-8") as f:
+        with open(self._resolve_path(self.report_file), "w", encoding="utf-8") as f:
             f.write("="*60 + "\n")
             f.write("           EMAIL EXTRACTION REPORT\n")
             f.write("="*60 + "\n")
@@ -467,4 +479,4 @@ class EmailSpider(scrapy.Spider):
             f.write(f"Total Unique Emails   : {len(self.all_valid_emails)}\n")
             f.write("="*60 + "\n")
         
-        print("\n[INFO] Report generated: report.txt")
+        print(f"\n[INFO] Report generated: {self._resolve_path(self.report_file)}")
