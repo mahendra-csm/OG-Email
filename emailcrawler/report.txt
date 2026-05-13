@@ -1,14 +1,14 @@
 ============================================================
            EMAIL EXTRACTION REPORT
 ============================================================
-Generated: 2026-05-12 17:44:42
+Generated: 2026-05-13 04:48:21
 ============================================================
 
 URL-WISE EMAIL COUNT:
 ------------------------------------------------------------
 
 * URL: https://www.python.org
-   Emails Extracted: 7
+   Emails Extracted: 12
 
 * URL: https://www.github.com
    Emails Extracted: 0
@@ -20,6 +20,6 @@ URL-WISE EMAIL COUNT:
 SUMMARY:
 ------------------------------------------------------------
 Total URLs Crawled    : 3
-Total Pages Visited   : 53
-Total Unique Emails   : 9
+Total Pages Visited   : 60
+Total Unique Emails   : 14
 ============================================================

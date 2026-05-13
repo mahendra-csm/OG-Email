@@ -7,3 +7,8 @@ psf-fellow@python.org
 psf-trademarks@python.org
 psf@python.org
 sponsors@python.org
+guido@cnri.reston.va.us
+guido@python.org
+grants@python.org
+joeylovespython@mail.com
+python-list@cwi.nl
