@@ -245,7 +245,7 @@ class EmailSpider(scrapy.Spider):
     custom_settings = {
         'CLOSESPIDER_PAGECOUNT': 500,
         'DOWNLOAD_TIMEOUT': 30,
-        'DEPTH_LIMIT': 3,
+        'DEPTH_LIMIT': 2,
         'LOG_LEVEL': 'ERROR'
     }
 
