@@ -1,19 +1,19 @@
 ============================================================
            EMAIL EXTRACTION REPORT
 ============================================================
-Generated: 2026-05-13 04:58:18
+Generated: 2026-05-13 05:00:15
 ============================================================
 
 URL-WISE EMAIL COUNT:
 ------------------------------------------------------------
 
-* URL: https://www.allconferencealert.com/
-   Emails Extracted: 0
+* URL: https://www.stanford.edu/
+   Emails Extracted: 1
 
 ============================================================
 SUMMARY:
 ------------------------------------------------------------
 Total URLs Crawled    : 1
-Total Pages Visited   : 0
-Total Unique Emails   : 0
+Total Pages Visited   : 20
+Total Unique Emails   : 1
 ============================================================
