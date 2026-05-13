@@ -31,4 +31,3 @@ https://www.dal.ca
 https://www.sfu.ca
 https://www.yorku.ca
 https://carleton.ca
-https://brocku.ca
