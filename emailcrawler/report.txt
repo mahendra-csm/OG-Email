@@ -1,23 +1,23 @@
 ============================================================
            EMAIL EXTRACTION REPORT
 ============================================================
-Generated: 2026-05-13 05:05:58
+Generated: 2026-05-13 05:15:04
 ============================================================
 
 URL-WISE EMAIL COUNT:
 ------------------------------------------------------------
 
 * URL: https://www.twu.ca
-   Emails Extracted: 0
+   Emails Extracted: 2
 
 * URL: https://www.athabascau.ca
    Emails Extracted: 0
 
 * URL: https://www.macewan.ca
-   Emails Extracted: 12
+   Emails Extracted: 31
 
 * URL: https://www.mtroyal.ca
-   Emails Extracted: 2
+   Emails Extracted: 78
 
 * URL: https://www.ulethbridge.ca
    Emails Extracted: 1
@@ -26,19 +26,19 @@ URL-WISE EMAIL COUNT:
    Emails Extracted: 0
 
 * URL: https://uqam.ca
-   Emails Extracted: 1
+   Emails Extracted: 14
 
 * URL: https://www.uqtr.ca
-   Emails Extracted: 1
+   Emails Extracted: 12
 
 * URL: https://www.uqac.ca
-   Emails Extracted: 2
+   Emails Extracted: 4
 
 * URL: https://uqo.ca
-   Emails Extracted: 1
+   Emails Extracted: 3
 
 * URL: https://www.uqar.ca
-   Emails Extracted: 0
+   Emails Extracted: 5
 
 * URL: https://fnuniv.ca
    Emails Extracted: 0
@@ -47,7 +47,7 @@ URL-WISE EMAIL COUNT:
    Emails Extracted: 0
 
 * URL: https://www.redeemer.ca
-   Emails Extracted: 4
+   Emails Extracted: 34
 
 * URL: https://www.crandallu.ca
    Emails Extracted: 0
@@ -56,6 +56,6 @@ URL-WISE EMAIL COUNT:
 SUMMARY:
 ------------------------------------------------------------
 Total URLs Crawled    : 15
-Total Pages Visited   : 58
-Total Unique Emails   : 24
+Total Pages Visited   : 478
+Total Unique Emails   : 184
 ============================================================
