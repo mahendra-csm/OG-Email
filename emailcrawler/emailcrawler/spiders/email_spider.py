@@ -65,22 +65,19 @@ KNOWN_DOMAINS = [
     'gmx.com', 'tutanota.com', 'fastmail.com',
 ]
 
-# Generic/placeholder local parts — exact and prefix-based
+# Generic/placeholder local parts — only truly junk/undeliverable addresses
 GENERIC_EXACT = {
-    'yourmail', 'test', 'example', 'admin', 'info', 'contact', 'support',
-    'instagram', 'facebook', 'twitter', 'noreply', 'no-reply', 'user', 'demo',
-    'sample', 'mail', 'email', 'hello', 'welcome', 'abc', 'xyz', 'donotreply',
-    'do-not-reply', 'postmaster', 'webmaster', 'sales', 'marketing', 'hr',
-    'jobs', 'careers', 'billing', 'accounts', 'service', 'helpdesk', 'mailer',
-    'newsletter', 'notifications', 'notify', 'alerts', 'bounce', 'bounces',
+    'yourmail', 'test', 'example', 'noreply', 'no-reply', 'donotreply',
+    'do-not-reply', 'user', 'demo', 'sample', 'abc', 'xyz',
+    'postmaster', 'mailer', 'bounce', 'bounces',
     'spam', 'junk', 'trash', 'null', 'none', 'na', 'notavailable', 'unknown',
     'temp', 'temporary', 'fake', 'invalid', 'test1', 'test2', 'user1', 'user2',
+    'instagram', 'facebook', 'twitter',
 }
 
 GENERIC_PREFIXES = (
-    'noreply', 'no-reply', 'donotreply', 'do-not-reply', 'test', 'admin',
-    'info', 'support', 'demo', 'sample', 'mailer', 'newsletter', 'notify',
-    'notification', 'alert', 'bounce', 'spam', 'temp', 'fake',
+    'noreply', 'no-reply', 'donotreply', 'do-not-reply',
+    'mailer', 'bounce', 'spam', 'temp', 'fake',
 )
 
 # Cache for MX lookups so we don't query the same domain twice
@@ -248,7 +245,7 @@ class EmailSpider(scrapy.Spider):
     custom_settings = {
         'CLOSESPIDER_PAGECOUNT': 500,
         'DOWNLOAD_TIMEOUT': 30,
-        'DEPTH_LIMIT': 2,
+        'DEPTH_LIMIT': 3,
         'LOG_LEVEL': 'ERROR'
     }
 
