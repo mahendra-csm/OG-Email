@@ -1,26 +1,143 @@
 ============================================================
            EMAIL EXTRACTION REPORT
 ============================================================
-Generated: 2026-05-13 05:18:59
+Generated: 2026-05-13 05:38:43
 ============================================================
 
 URL-WISE EMAIL COUNT:
 ------------------------------------------------------------
 
-* URL: https://www.twu.ca
+* URL: https://www.ucalgary.ca
+   Emails Extracted: 31
+
+* URL: https://www.dal.ca
+   Emails Extracted: 0
+
+* URL: https://www.sfu.ca
+   Emails Extracted: 6
+
+* URL: https://www.yorku.ca
+   Emails Extracted: 1
+
+* URL: https://carleton.ca
+   Emails Extracted: 1
+
+* URL: https://brocku.ca
+   Emails Extracted: 0
+
+* URL: https://umanitoba.ca
+   Emails Extracted: 20
+
+* URL: https://www.usask.ca
+   Emails Extracted: 8
+
+* URL: https://www.mun.ca
+   Emails Extracted: 0
+
+* URL: https://www.umontreal.ca
+   Emails Extracted: 0
+
+* URL: https://www.ulaval.ca
+   Emails Extracted: 2
+
+* URL: https://www.concordia.ca
+   Emails Extracted: 6
+
+* URL: https://www.uoguelph.ca
+   Emails Extracted: 7
+
+* URL: https://www.trentu.ca
+   Emails Extracted: 6
+
+* URL: https://www.lakeheadu.ca
+   Emails Extracted: 10
+
+* URL: https://www.torontomu.ca
+   Emails Extracted: 4
+
+* URL: https://ontariotechu.ca
+   Emails Extracted: 7
+
+* URL: https://www.wlu.ca
+   Emails Extracted: 19
+
+* URL: https://laurentian.ca
    Emails Extracted: 3
+
+* URL: https://www.nipissingu.ca
+   Emails Extracted: 4
+
+* URL: https://www.uwindsor.ca
+   Emails Extracted: 14
+
+* URL: https://www2.acadiau.ca
+   Emails Extracted: 0
+
+* URL: https://www.mta.ca
+   Emails Extracted: 0
+
+* URL: https://www.stfx.ca
+   Emails Extracted: 7
+
+* URL: https://www.msvu.ca
+   Emails Extracted: 17
+
+* URL: https://www.cbu.ca
+   Emails Extracted: 0
+
+* URL: https://www.ubishops.ca
+   Emails Extracted: 6
+
+* URL: https://www.usherbrooke.ca
+   Emails Extracted: 1
+
+* URL: https://www.etsmtl.ca
+   Emails Extracted: 12
+
+* URL: https://www.polymtl.ca
+   Emails Extracted: 14
+
+* URL: https://www.hec.ca
+   Emails Extracted: 0
+
+* URL: https://www.uregina.ca
+   Emails Extracted: 13
+
+* URL: https://www.royalroads.ca
+   Emails Extracted: 0
+
+* URL: https://www.tru.ca
+   Emails Extracted: 206
+
+* URL: https://www.uvic.ca
+   Emails Extracted: 11
+
+* URL: https://www.unbc.ca
+   Emails Extracted: 18
+
+* URL: https://www.viu.ca
+   Emails Extracted: 5
+
+* URL: https://www.kpu.ca
+   Emails Extracted: 6
+
+* URL: https://www.ucanwest.ca
+   Emails Extracted: 0
+
+* URL: https://www.twu.ca
+   Emails Extracted: 0
 
 * URL: https://www.athabascau.ca
    Emails Extracted: 0
 
 * URL: https://www.macewan.ca
-   Emails Extracted: 19
+   Emails Extracted: 2
 
 * URL: https://www.mtroyal.ca
-   Emails Extracted: 72
+   Emails Extracted: 55
 
 * URL: https://www.ulethbridge.ca
-   Emails Extracted: 15
+   Emails Extracted: 2
 
 * URL: https://www.brandonu.ca
    Emails Extracted: 0
@@ -29,16 +146,16 @@ URL-WISE EMAIL COUNT:
    Emails Extracted: 14
 
 * URL: https://www.uqtr.ca
-   Emails Extracted: 12
+   Emails Extracted: 1
 
 * URL: https://www.uqac.ca
-   Emails Extracted: 13
+   Emails Extracted: 3
 
 * URL: https://uqo.ca
-   Emails Extracted: 4
+   Emails Extracted: 3
 
 * URL: https://www.uqar.ca
-   Emails Extracted: 5
+   Emails Extracted: 2
 
 * URL: https://fnuniv.ca
    Emails Extracted: 0
@@ -47,7 +164,7 @@ URL-WISE EMAIL COUNT:
    Emails Extracted: 0
 
 * URL: https://www.redeemer.ca
-   Emails Extracted: 19
+   Emails Extracted: 6
 
 * URL: https://www.crandallu.ca
    Emails Extracted: 0
@@ -55,7 +172,7 @@ URL-WISE EMAIL COUNT:
 ============================================================
 SUMMARY:
 ------------------------------------------------------------
-Total URLs Crawled    : 15
-Total Pages Visited   : 493
-Total Unique Emails   : 176
+Total URLs Crawled    : 54
+Total Pages Visited   : 502
+Total Unique Emails   : 553
 ============================================================
