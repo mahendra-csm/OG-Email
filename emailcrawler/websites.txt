@@ -1,6 +1,4 @@
 https://www.utoronto.ca
-https://www.ubc.ca
-https://www.mcgill.ca
 https://www.ualberta.ca
 https://uwaterloo.ca
 https://www.mcmaster.ca
