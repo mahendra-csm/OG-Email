@@ -3,7 +3,7 @@ import re
 import unicodedata
 from pathlib import Path
 from urllib.parse import urlparse
-# import winsound  # Windows built-in for notification sounds
+import winsound  # Windows built-in for notification sounds
 
 # ─────────────────────────────────────────────
 # Optional imports — install with:
@@ -154,21 +154,19 @@ def correct_email(email):
     return f"{local}@{domain}"
 
 
-# def domain_has_mx(domain):
-#     """Check if a domain has valid MX records (with caching)."""
-#     if not DNS_AVAILABLE:
-#         return True  # Can't verify, so don't drop it
-#     domain = domain.lower()
-#     if domain in _mx_cache:
-#         return _mx_cache[domain]
-#     try:
-#         dns.resolver.resolve(domain, 'MX', lifetime=5)
-#         _mx_cache[domain] = True
-#     except Exception:
-#         _mx_cache[domain] = False
-#     return _mx_cache[domain]
 def domain_has_mx(domain):
-    return True
+    """Check if a domain has valid MX records (with caching)."""
+    if not DNS_AVAILABLE:
+        return True  # Can't verify, so don't drop it
+    domain = domain.lower()
+    if domain in _mx_cache:
+        return _mx_cache[domain]
+    try:
+        dns.resolver.resolve(domain, 'MX', lifetime=5)
+        _mx_cache[domain] = True
+    except Exception:
+        _mx_cache[domain] = False
+    return _mx_cache[domain]
 
 
 def is_valid_email(email):
