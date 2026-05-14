@@ -2,11 +2,6 @@ name: Daily Email Extraction
 
 on:
   push:
-    paths:
-      - 'emailcrawler/websites.txt'
-      - 'run_email_extractor.py'
-      - 'emailcrawler/emailcrawler/spiders/email_spider.py'
-      - '.github/workflows/daily-email-extraction.yml'
   workflow_dispatch:
 
 permissions:
@@ -32,13 +27,13 @@ jobs:
 
       - name: Run crawler
         run: |
-          python run_email_extractor.py emailcrawler/websites.txt
+          python run_email_extractor.py emailcrawler/emailcrawler/websites.txt
 
       - name: Commit updated outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add emailcrawler/extracted_emails.txt emailcrawler/report.txt
+          git add emailcrawler/emailcrawler/extracted_emails.txt emailcrawler/emailcrawler/report.txt
           if git diff --cached --quiet; then
             echo "No output changes to commit."
           else

@@ -1,9 +1,7 @@
 import scrapy
 import re
 import unicodedata
-from pathlib import Path
 from urllib.parse import urlparse
-import winsound  # Windows built-in for notification sounds
 
 # ─────────────────────────────────────────────
 # Optional imports — install with:
@@ -65,19 +63,22 @@ KNOWN_DOMAINS = [
     'gmx.com', 'tutanota.com', 'fastmail.com',
 ]
 
-# Generic/placeholder local parts — only truly junk/undeliverable addresses
+# Generic/placeholder local parts — exact and prefix-based
 GENERIC_EXACT = {
-    'yourmail', 'test', 'example', 'noreply', 'no-reply', 'donotreply',
-    'do-not-reply', 'user', 'demo', 'sample', 'abc', 'xyz',
-    'postmaster', 'mailer', 'bounce', 'bounces',
+    'yourmail', 'test', 'example', 'admin', 'info', 'contact', 'support',
+    'instagram', 'facebook', 'twitter', 'noreply', 'no-reply', 'user', 'demo',
+    'sample', 'mail', 'email', 'hello', 'welcome', 'abc', 'xyz', 'donotreply',
+    'do-not-reply', 'postmaster', 'webmaster', 'sales', 'marketing', 'hr',
+    'jobs', 'careers', 'billing', 'accounts', 'service', 'helpdesk', 'mailer',
+    'newsletter', 'notifications', 'notify', 'alerts', 'bounce', 'bounces',
     'spam', 'junk', 'trash', 'null', 'none', 'na', 'notavailable', 'unknown',
     'temp', 'temporary', 'fake', 'invalid', 'test1', 'test2', 'user1', 'user2',
-    'instagram', 'facebook', 'twitter',
 }
 
 GENERIC_PREFIXES = (
-    'noreply', 'no-reply', 'donotreply', 'do-not-reply',
-    'mailer', 'bounce', 'spam', 'temp', 'fake',
+    'noreply', 'no-reply', 'donotreply', 'do-not-reply', 'test', 'admin',
+    'info', 'support', 'demo', 'sample', 'mailer', 'newsletter', 'notify',
+    'notification', 'alert', 'bounce', 'spam', 'temp', 'fake',
 )
 
 # Cache for MX lookups so we don't query the same domain twice
@@ -138,7 +139,7 @@ def correct_domain(domain):
             # Only auto-correct if very close (≥88%) to avoid false positives
             if score >= 88 and domain != match:
                 return match
-                
+
     return domain
 
 
@@ -240,19 +241,8 @@ def is_valid_email(email):
 class EmailSpider(scrapy.Spider):
     name = "email_spider"
 
-    custom_settings = {
-        'CLOSESPIDER_PAGECOUNT': 500,
-        'DOWNLOAD_TIMEOUT': 30,
-        'DEPTH_LIMIT': 2,
-        'LOG_LEVEL': 'ERROR'
-    }
-
     def __init__(self, *args, **kwargs):
         super(EmailSpider, self).__init__(*args, **kwargs)
-        self.project_root = Path(__file__).resolve().parents[2]
-        self.input_file = kwargs.get("input_file", "websites.txt")
-        self.output_file = kwargs.get("output_file", "extracted_emails.txt")
-        self.report_file = kwargs.get("report_file", "report.txt")
         self.visited_urls = set()
         self.allowed_domains = set()
         self.all_valid_emails = set()  # Store all valid unique emails
@@ -260,155 +250,75 @@ class EmailSpider(scrapy.Spider):
         self.domain_to_base_url = {}  # Map domain to original base URL
         self.start_urls = self.load_start_urls()
         # Clear the output files at start
-        with open(self._resolve_path(self.output_file), "w", encoding="utf-8") as f:
+        with open("extracted_emails.txt", "w", encoding="utf-8") as f:
             f.write("")
-        with open(self._resolve_path(self.report_file), "w", encoding="utf-8") as f:
+        with open("report.txt", "w", encoding="utf-8") as f:
             f.write("")
-
-    def _resolve_path(self, file_name):
-        path = Path(file_name)
-        if path.is_absolute():
-            return path
-        return self.project_root / path
 
     def load_start_urls(self):
-        """ Load websites from an input text file - supports multiple URLs """
-        input_path = self._resolve_path(self.input_file)
-        with open(input_path, "r", encoding="utf-8") as f:
+        """ Load websites from 'websites.txt' - supports multiple URLs """
+        with open("websites.txt", "r", encoding="utf-8") as f:
             urls = [url.strip() for url in f.readlines() if url.strip() and not url.strip().startswith('#')]
-        
+
         # Initialize tracking for each URL
         for url in urls:
             domain = urlparse(url).netloc
             self.allowed_domains.add(domain)
             self.domain_to_base_url[domain] = url
             self.emails_per_url[url] = set()  # Track unique emails per base URL
-        
-        print(f"[INFO] Loaded {len(urls)} URL(s) to crawl from {input_path}: {urls}")
+
+        print(f"📋 Loaded {len(urls)} URL(s) to crawl: {urls}")
         return urls
-
-    # File extensions to skip (non-text content)
-    SKIP_EXTENSIONS = {
-        '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp', '.ico',
-        '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
-        '.zip', '.rar', '.7z', '.tar', '.gz',
-        '.mp3', '.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm',
-        '.css', '.js', '.woff', '.woff2', '.ttf', '.eot',
-    }
-
-    # Maximum URL length to prevent spider traps
-    MAX_URL_LENGTH = 500
-
-    def _should_skip_url(self, url):
-        """Check if URL points to non-text content or is a spider trap"""
-        # Skip overly long URLs (spider trap indicator)
-        if len(url) > self.MAX_URL_LENGTH:
-            return True
-        
-        parsed = urlparse(url.lower())
-        path = parsed.path
-        
-        # Skip file extensions
-        if any(path.endswith(ext) for ext in self.SKIP_EXTENSIONS):
-            return True
-        
-        # Detect repeating path segments (spider trap)
-        if self._has_repeating_segments(path):
-            return True
-        
-        return False
-
-    def _has_repeating_segments(self, path):
-        """Detect if a URL path contains repeating segments (spider trap)"""
-        segments = [s for s in path.split('/') if s]
-        if len(segments) < 4:
-            return False
-        
-        # Check for any segment appearing more than twice
-        from collections import Counter
-        segment_counts = Counter(segments)
-        for segment, count in segment_counts.items():
-            if count > 2 and len(segment) > 2:  # Ignore tiny segments like 'a'
-                return True
-        
-        return False
 
     def parse(self, response):
         """ Extract emails and follow valid links """
-        parsed_url = urlparse(response.url)
-        domain = parsed_url.netloc
+        domain = urlparse(response.url).netloc
 
         if domain not in self.allowed_domains:
             return  # Ignore external domains
 
-        # Skip non-text responses (images, PDFs, etc.) using path-based check
-        if self._should_skip_url(response.url):
-            return
-
-        # Check content-type header
-        content_type = response.headers.get('Content-Type', b'').decode('utf-8', errors='ignore').lower()
-        
-        # Skip binary content types
-        binary_types = ['image/', 'video/', 'audio/', 'application/pdf', 'application/zip', 
-                        'application/octet-stream', 'font/', 'application/javascript']
-        if any(bt in content_type for bt in binary_types):
-            return
-
         self.visited_urls.add(response.url)
 
-        # Extract potential emails using regex (with safe text access)
-        try:
-            page_text = response.text
-        except AttributeError:
-            return  # Response is not text-based, skip it
-        except AttributeError:
-            return  # Response is not text-based, skip it
-
+        # Extract potential emails using regex
         potential_emails = set(re.findall(
-            r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+", 
-            page_text
+            r"[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+",
+            response.text
         ))
-        
+
         # Process each email: clean, correct domain typos, validate
         valid_emails = set()
         for email in potential_emails:
             # Step 1: Clean and correct the email
             corrected_email = correct_email(email.lower().strip())
-            
+
             # Step 2: Validate strictly
             if is_valid_email(corrected_email):
                 valid_emails.add(corrected_email)
-        
+
         # Add to global set (avoids duplicates across all pages)
         new_emails = valid_emails - self.all_valid_emails
         if new_emails:
             self.all_valid_emails.update(new_emails)
             self.save_emails(new_emails)
-            
+
             # Track emails per base URL for report
             base_url = self.domain_to_base_url.get(domain)
             if base_url:
                 self.emails_per_url[base_url].update(new_emails)
-            
-            # print(f"[OK] Found {len(new_emails)} valid emails from {response.url}")
-            for email in sorted(new_emails):
-                print(f"[EMAIL FOUND] {email}", flush=True)
 
-        # Follow subdomain links (skip non-text files)
+            print(f"✅ Found {len(new_emails)} valid emails from {response.url}")
+
+        # Follow subdomain links
         for href in response.css("a::attr(href)").getall():
             absolute_url = response.urljoin(href)
             parsed_url = urlparse(absolute_url)
-            
-            # Skip URLs that point to non-text files
-            if self._should_skip_url(absolute_url):
-                continue
 
             if parsed_url.netloc in self.allowed_domains and absolute_url not in self.visited_urls:
                 yield scrapy.Request(absolute_url, callback=self.parse)
 
     def save_emails(self, emails):
         """ Save extracted emails to 'extracted_emails.txt' - only emails, no URLs """
-        with open(self._resolve_path(self.output_file), "a", encoding="utf-8") as f:
+        with open("extracted_emails.txt", "a", encoding="utf-8") as f:
             for email in sorted(emails):
                 f.write(email + "\n")
 
@@ -416,56 +326,36 @@ class EmailSpider(scrapy.Spider):
         """ Called when spider finishes - print summary and generate report """
         # Generate report.txt
         self.generate_report()
-        
-        print(f"\n{'='*60}")
-        print(f"Crawling complete!")
-        print(f"Total unique valid emails extracted: {len(self.all_valid_emails)}")
-        print(f"Total pages visited: {len(self.visited_urls)}")
-        print(f"Emails saved to: {self._resolve_path(self.output_file)}")
-        print(f"Report saved to: {self._resolve_path(self.report_file)}")
-        print(f"{'='*60}")
-        
-        # Play notification sound to alert user that extraction is complete
-        self.play_notification_sound()
 
-    def play_notification_sound(self):
-        # """Play a continuous notification sound for 5 seconds when crawling finishes"""
-        # try:
-        #     # Play continuous alternating beeps for 5 seconds total
-        #     # Each cycle: 200ms + 200ms = 400ms, so 12-13 cycles = ~5 seconds
-        #     for _ in range(12):
-        #         winsound.Beep(800, 200)   # Low tone
-        #         winsound.Beep(1200, 200)  # High tone
-            
-        #     # Final long beep to signal completion
-        #     winsound.Beep(1000, 500)
-            
-        #     print("mail extraction complete! 🔔\n[NOTIFICATION] E")
-        # except Exception as e:
-        
-        print("\n[INFO] Email extraction completed successfully.")
+        print(f"\n{'='*60}")
+        print(f"🎉 Crawling complete!")
+        print(f"📊 Total unique valid emails extracted: {len(self.all_valid_emails)}")
+        print(f"🌐 Total pages visited: {len(self.visited_urls)}")
+        print(f"📁 Emails saved to: extracted_emails.txt")
+        print(f"📋 Report saved to: report.txt")
+        print(f"{'='*60}")
 
     def generate_report(self):
         """ Generate report.txt with email count per URL """
         from datetime import datetime
-        
-        with open(self._resolve_path(self.report_file), "w", encoding="utf-8") as f:
+
+        with open("report.txt", "w", encoding="utf-8") as f:
             f.write("="*60 + "\n")
             f.write("           EMAIL EXTRACTION REPORT\n")
             f.write("="*60 + "\n")
             f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write("="*60 + "\n\n")
-            
+
             f.write("URL-WISE EMAIL COUNT:\n")
             f.write("-"*60 + "\n")
-            
+
             total_emails = 0
             for url in self.start_urls:
                 email_count = len(self.emails_per_url.get(url, set()))
                 total_emails += email_count
-                f.write(f"\n* URL: {url}\n")
+                f.write(f"\n📌 URL: {url}\n")
                 f.write(f"   Emails Extracted: {email_count}\n")
-            
+
             f.write("\n" + "="*60 + "\n")
             f.write("SUMMARY:\n")
             f.write("-"*60 + "\n")
@@ -473,5 +363,5 @@ class EmailSpider(scrapy.Spider):
             f.write(f"Total Pages Visited   : {len(self.visited_urls)}\n")
             f.write(f"Total Unique Emails   : {len(self.all_valid_emails)}\n")
             f.write("="*60 + "\n")
-        
-        print(f"\n[INFO] Report generated: {self._resolve_path(self.report_file)}")
+
+        print("\n📋 Report generated: report.txt")

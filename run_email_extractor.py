@@ -4,8 +4,8 @@ Usage:
     python run_email_extractor.py path\to\urls.txt
 
 The script runs the Scrapy spider and writes the results to:
-    emailcrawler/extracted_emails.txt
-    emailcrawler/report.txt
+    emailcrawler/emailcrawler/extracted_emails.txt
+    emailcrawler/emailcrawler/report.txt
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ def main() -> int:
         return 1
 
     repo_root = Path(__file__).resolve().parent
-    project_root = repo_root / "emailcrawler"
+    project_root = repo_root / "emailcrawler" / "emailcrawler"
 
     cmd = [
         sys.executable,

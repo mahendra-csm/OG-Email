@@ -1,0 +1,46 @@
+============================================================
+           EMAIL EXTRACTION REPORT
+============================================================
+Generated: 2026-05-14 10:57:38
+============================================================
+
+URL-WISE EMAIL COUNT:
+------------------------------------------------------------
+
+📌 URL: https://www.lboro.ac.uk
+   Emails Extracted: 713
+
+📌 URL: https://www.uq.edu.au
+   Emails Extracted: 0
+
+📌 URL: https://www.sydney.edu.au
+   Emails Extracted: 0
+
+📌 URL: https://www.umich.edu
+   Emails Extracted: 0
+
+📌 URL: https://www.unimelb.edu.au
+   Emails Extracted: 0
+
+📌 URL: https://www.utexas.edu
+   Emails Extracted: 0
+
+📌 URL: https://www.tamu.edu
+   Emails Extracted: 0
+
+📌 URL: https://www.bath.ac.uk
+   Emails Extracted: 50
+
+📌 URL: https://www.utoronto.ca
+   Emails Extracted: 0
+
+📌 URL: https://www.nih.no/en
+   Emails Extracted: 0
+
+============================================================
+SUMMARY:
+------------------------------------------------------------
+Total URLs Crawled    : 10
+Total Pages Visited   : 720
+Total Unique Emails   : 763
+============================================================
